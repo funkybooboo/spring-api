@@ -8,7 +8,7 @@
         <version>3.4.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.codewithmosh</groupId>
+    <groupId>com.funkybooboo</groupId>
     <artifactId>store</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>store</name>
@@ -79,7 +79,7 @@
                 <configuration>
                     <url>jdbc:mysql://localhost:3306/store_api?createDatabaseIfNotExist=true</url>
                     <user>root</user>
-                    <password>MyPassword!</password>
+                    <password>root</password>
                     <cleanDisabled>false</cleanDisabled>
                 </configuration>
             </plugin>
