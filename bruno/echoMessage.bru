@@ -1,0 +1,17 @@
+meta {
+  name: echoMessage
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/echoMessage
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "text": "Nate"
+  }
+}
