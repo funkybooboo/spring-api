@@ -1,5 +1,6 @@
 package com.funkybooboo.store.controllers;
 
+import com.funkybooboo.store.dtos.request.ChangeUserPasswordRequestDto;
 import com.funkybooboo.store.dtos.request.RegisterUserRequestDto;
 import com.funkybooboo.store.dtos.request.UpdateUserRequestDto;
 import com.funkybooboo.store.dtos.response.UserResponseDto;
@@ -7,6 +8,7 @@ import com.funkybooboo.store.mappers.UserMapper;
 import com.funkybooboo.store.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -69,13 +71,35 @@ public class UserController {
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(
+        @PathVariable Long id
+    ) {
         var user = userRepository.findById(id).orElse(null);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
         
         userRepository.delete(user);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/change-password")
+    public ResponseEntity<Void> changeUserPassword(
+        @PathVariable Long id,
+        @RequestBody ChangeUserPasswordRequestDto userRequestDto
+    ) {
+        var user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (!user.getPassword().equals(userRequestDto.getOldPassword())) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        
+        user.setPassword(userRequestDto.getNewPassword());
+        userRepository.save(user);
+        
         return ResponseEntity.noContent().build();
     }
 }

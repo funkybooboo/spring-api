@@ -1,0 +1,18 @@
+meta {
+  name: asdf
+  type: http
+  seq: 9
+}
+
+post {
+  url: http://localhost:8080/users/4/change-password
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "oldPassword": "fdsa",
+    "newPassword": "asdf"
+  }
+}
