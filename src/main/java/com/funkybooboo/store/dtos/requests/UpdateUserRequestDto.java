@@ -1,4 +1,4 @@
-package com.funkybooboo.store.dtos.request;
+package com.funkybooboo.store.dtos.requests;
 
 import lombok.Data;
 

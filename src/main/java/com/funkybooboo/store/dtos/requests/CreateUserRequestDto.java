@@ -1,9 +1,9 @@
-package com.funkybooboo.store.dtos.request;
+package com.funkybooboo.store.dtos.requests;
 
 import lombok.Data;
 
 @Data
-public class RegisterUserRequestDto {
+public class CreateUserRequestDto {
     private String name;
     private String email;
     private String password;

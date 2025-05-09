@@ -1,4 +1,4 @@
-package com.funkybooboo.store.dtos.response;
+package com.funkybooboo.store.dtos.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

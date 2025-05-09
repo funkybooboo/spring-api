@@ -1,9 +1,9 @@
 package com.funkybooboo.store.controllers;
 
-import com.funkybooboo.store.dtos.request.ChangeUserPasswordRequestDto;
-import com.funkybooboo.store.dtos.request.RegisterUserRequestDto;
-import com.funkybooboo.store.dtos.request.UpdateUserRequestDto;
-import com.funkybooboo.store.dtos.response.UserResponseDto;
+import com.funkybooboo.store.dtos.requests.ChangeUserPasswordRequestDto;
+import com.funkybooboo.store.dtos.requests.CreateUserRequestDto;
+import com.funkybooboo.store.dtos.requests.UpdateUserRequestDto;
+import com.funkybooboo.store.dtos.responses.UserResponseDto;
 import com.funkybooboo.store.mappers.UserMapper;
 import com.funkybooboo.store.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -43,7 +43,7 @@ public class UserController {
     
     @PostMapping
     public ResponseEntity<UserResponseDto> createUser(
-        @RequestBody RegisterUserRequestDto userRequestDto,
+        @RequestBody CreateUserRequestDto userRequestDto,
         UriComponentsBuilder uriBuilder
     ) {
         var user = userMapper.toEntity(userRequestDto);
