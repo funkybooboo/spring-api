@@ -1,6 +1,6 @@
 package com.funkybooboo.store.controllers;
 
-import com.funkybooboo.store.dtos.ProductDto;
+import com.funkybooboo.store.dtos.ProductResponseDto;
 import com.funkybooboo.store.entities.Product;
 import com.funkybooboo.store.mappers.ProductMapper;
 import com.funkybooboo.store.repositories.ProductRepository;
@@ -19,8 +19,8 @@ public class ProductController {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
 
-    @GetMapping("")
-    public Iterable<ProductDto> getAllProducts(
+    @GetMapping
+    public Iterable<ProductResponseDto> getAllProducts(
         @RequestParam(name = "sort", required = false, defaultValue = "") String sortBy, 
         @RequestParam(name = "categoryId", required = false) Byte categoryId
     ) {
@@ -34,17 +34,17 @@ public class ProductController {
         } else {
             products = productRepository.findAll(sort);
         }
-        return products.stream().map(productMapper::toDto).toList();
+        return products.stream().map(productMapper::toResponseDto).toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getProduct(
+    public ResponseEntity<ProductResponseDto> getProduct(
         @PathVariable Long id
     ) {
         var product = productRepository.findById(id).orElse(null);
         if (product == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(productMapper.toDto(product));
+        return ResponseEntity.ok(productMapper.toResponseDto(product));
     }
 }

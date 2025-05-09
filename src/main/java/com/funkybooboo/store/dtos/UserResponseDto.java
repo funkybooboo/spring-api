@@ -3,14 +3,10 @@ package com.funkybooboo.store.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.math.BigDecimal;
-
 @AllArgsConstructor
 @Getter
-public class ProductDto {
+public class UserResponseDto {
     private Long id;
     private String name;
-    private String description;
-    private BigDecimal price;
-    private Byte categoryId;
+    private String email;
 }

@@ -1,0 +1,19 @@
+meta {
+  name: create user
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:8080/users
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Nate",
+    "email": "nate.stott@pm.me",
+    "password": "asdf"
+  }
+}
