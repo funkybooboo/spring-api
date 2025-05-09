@@ -21,8 +21,8 @@ public class ProductController {
 
     @GetMapping("")
     public Iterable<ProductDto> getAllProducts(
-            @RequestParam(name = "sort", required = false, defaultValue = "") String sortBy, 
-            @RequestParam(name = "categoryId", required = false) Byte categoryId
+        @RequestParam(name = "sort", required = false, defaultValue = "") String sortBy, 
+        @RequestParam(name = "categoryId", required = false) Byte categoryId
     ) {
         if (!Set.of("name", "description", "price").contains(sortBy)) {
             sortBy = "name";
@@ -38,7 +38,9 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
+    public ResponseEntity<ProductDto> getProduct(
+        @PathVariable Long id
+    ) {
         var product = productRepository.findById(id).orElse(null);
         if (product == null) {
             return ResponseEntity.notFound().build();

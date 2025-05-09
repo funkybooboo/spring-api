@@ -17,7 +17,9 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping("")
-    public Iterable<UserDto> getAllUsers(@RequestParam(required = false, defaultValue = "", name = "sort") String sortBy) {
+    public Iterable<UserDto> getAllUsers(
+        @RequestParam(name = "sort", required = false, defaultValue = "") String sortBy
+    ) {
         if (!Set.of("name", "email").contains(sortBy)) {
             sortBy = "name";
         }
