@@ -2,6 +2,7 @@ package com.funkybooboo.store.controllers;
 
 import com.funkybooboo.store.dtos.UserDto;
 import com.funkybooboo.store.entities.User;
+import com.funkybooboo.store.mappers.UserMapper;
 import com.funkybooboo.store.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,10 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @GetMapping("/")
     public Iterable<UserDto> getAllUsers() {
-        return userRepository.findAll().stream().map(user -> new UserDto(user.getId(), user.getName(), user.getEmail())).toList();
+        return userRepository.findAll().stream().map(userMapper::toDto).toList();
     }
 
     @GetMapping("/{id}")
@@ -28,7 +30,6 @@ public class UserController {
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        var userDto = new UserDto(user.getId(), user.getName(), user.getEmail());
-        return ResponseEntity.ok(userDto);
+        return ResponseEntity.ok(userMapper.toDto(user));
     }
 }
