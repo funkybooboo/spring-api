@@ -1,6 +1,6 @@
 package com.funkybooboo.store.controllers;
 
-import com.funkybooboo.store.dtos.ProductResponseDto;
+import com.funkybooboo.store.dtos.response.ProductResponseDto;
 import com.funkybooboo.store.entities.Product;
 import com.funkybooboo.store.mappers.ProductMapper;
 import com.funkybooboo.store.repositories.ProductRepository;

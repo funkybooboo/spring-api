@@ -1,7 +1,8 @@
 package com.funkybooboo.store.controllers;
 
-import com.funkybooboo.store.dtos.RegisterUserRequestDto;
-import com.funkybooboo.store.dtos.UserResponseDto;
+import com.funkybooboo.store.dtos.request.RegisterUserRequestDto;
+import com.funkybooboo.store.dtos.request.UpdateUserRequestDto;
+import com.funkybooboo.store.dtos.response.UserResponseDto;
 import com.funkybooboo.store.mappers.UserMapper;
 import com.funkybooboo.store.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -40,14 +41,30 @@ public class UserController {
     
     @PostMapping
     public ResponseEntity<UserResponseDto> createUser(
-        @RequestBody RegisterUserRequestDto userDtoRequest,
+        @RequestBody RegisterUserRequestDto userRequestDto,
         UriComponentsBuilder uriBuilder
     ) {
-        var user = userMapper.toEntity(userDtoRequest);
+        var user = userMapper.toEntity(userRequestDto);
         userRepository.save(user);
         var userResponseDto = userMapper.toResponseDto(user);
         var uri = uriBuilder.path("/users/{id}").buildAndExpand(userResponseDto.getId()).toUri();
         
         return ResponseEntity.created(uri).body(userResponseDto);
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDto> updateUser(
+        @PathVariable Long id,
+        @RequestBody UpdateUserRequestDto userRequestDto
+    ) {
+        var user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        userMapper.update(userRequestDto, user);
+        userRepository.save(user);
+        
+        return ResponseEntity.ok(userMapper.toResponseDto(user));
     }
 }
