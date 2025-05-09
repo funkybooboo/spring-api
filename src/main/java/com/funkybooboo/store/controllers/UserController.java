@@ -1,11 +1,9 @@
 package com.funkybooboo.store.controllers;
 
 import com.funkybooboo.store.dtos.UserDto;
-import com.funkybooboo.store.entities.User;
 import com.funkybooboo.store.mappers.UserMapper;
 import com.funkybooboo.store.repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
