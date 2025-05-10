@@ -35,6 +35,6 @@ public class Cart {
             updatable = false)
     private LocalDate dateCreated;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.MERGE)
     private Set<CartItem> cartItems = new LinkedHashSet<>();
 }

@@ -1,0 +1,17 @@
+meta {
+  name: add item to cart
+  type: http
+  seq: 11
+}
+
+post {
+  url: http://localhost:8080/carts/fe792e96-e545-4287-acc1-c41855b48f1b/items
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "productId": 1
+  }
+}
