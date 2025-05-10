@@ -1,37 +1,22 @@
 USE spring_api;
 
--- 1) carts: id as BINARY(16) PK, date_created defaults to today
+-- 1) Define carts.id as a 36‐char UUID string
 CREATE TABLE carts (
-    id            BINARY(16) NOT NULL PRIMARY KEY,
-    date_created  DATE       NOT NULL DEFAULT (CURDATE())
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4;
+    id           CHAR(36)    NOT NULL,
+    date_created DATE         NOT NULL DEFAULT CURRENT_DATE(),
+    PRIMARY KEY (id)
+);
 
-DELIMITER $$
-CREATE TRIGGER trg_carts_before_insert
-    BEFORE INSERT ON carts
-    FOR EACH ROW
-BEGIN
-    -- if client didn’t supply an id, generate one
-    IF NEW.id IS NULL
-        OR NEW.id = x'00000000000000000000000000000000' THEN
-        SET NEW.id = UUID_TO_BIN(UUID());
-    END IF;
-END$$
-DELIMITER ;
+-- INSERT INTO carts (id)
+-- VALUES (UUID());
 
--- 2) cart_items: FK → carts(id) and products(id)
+-- 2) cart_items referencing the CHAR(36) carts.id
 CREATE TABLE cart_items (
-    id         BIGINT       AUTO_INCREMENT PRIMARY KEY,
-    cart_id    BINARY(16)   NOT NULL,
-    product_id BIGINT       NOT NULL,
-    quantity   INT          NOT NULL DEFAULT 1,
-    CONSTRAINT uq_cart_product UNIQUE (cart_id, product_id),
-    CONSTRAINT fk_ci_cart FOREIGN KEY (cart_id)
-        REFERENCES carts(id)
-        ON DELETE CASCADE,
-    CONSTRAINT fk_ci_prod FOREIGN KEY (product_id)
-        REFERENCES products(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4;
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    cart_id    CHAR(36)         NOT NULL,
+    product_id BIGINT           NOT NULL,
+    quantity   INT              NOT NULL DEFAULT 1,
+    UNIQUE KEY cart_items_cart_product_unique (cart_id, product_id),
+    CONSTRAINT cart_items_carts_id_fk    FOREIGN KEY (cart_id)    REFERENCES carts(id)    ON DELETE CASCADE,
+    CONSTRAINT cart_items_products_id_fk FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+);
