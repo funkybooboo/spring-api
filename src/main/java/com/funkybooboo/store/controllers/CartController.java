@@ -9,7 +9,6 @@ import com.funkybooboo.store.mappers.CartMapper;
 import com.funkybooboo.store.repositories.CartRepository;
 import com.funkybooboo.store.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -43,7 +42,7 @@ public class CartController {
         @RequestBody AddItemToCartRequestDto requestDto,
         UriComponentsBuilder uriBuilder
     ) {
-        var cart = cartRepository.findById(cartId).orElse(null);
+        var cart = cartRepository.getCartWithItems(cartId).orElse(null);
         if (cart == null) {
             return ResponseEntity.notFound().build();
         }
@@ -53,7 +52,7 @@ public class CartController {
             return ResponseEntity.badRequest().build();
         }
         
-        var cartItem = cart.getCartItems().stream()
+        var cartItem = cart.getItems().stream()
                 .filter(item -> item.getProduct().getId().equals(product.getId()))
                 .findFirst()
                 .orElse(null);
@@ -65,7 +64,7 @@ public class CartController {
             cartItem.setProduct(product);
             cartItem.setQuantity(1);
             cartItem.setCart(cart);
-            cart.getCartItems().add(cartItem);
+            cart.getItems().add(cartItem);
         }
         
         cartRepository.save(cart);
@@ -77,5 +76,17 @@ public class CartController {
                 .toUri();
         
         return ResponseEntity.created(uri).body(cartItemResponseDto);
+    }
+    
+    @GetMapping("/{cartId}")
+    public ResponseEntity<CartResponseDto> getCart(
+        @PathVariable UUID cartId
+    ) {
+        var cart = cartRepository.getCartWithItems(cartId).orElse(null);
+        if (cart == null) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        return ResponseEntity.ok(cartMapper.toResponseDto(cart));
     }
 }
