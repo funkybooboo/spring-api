@@ -1,0 +1,17 @@
+meta {
+  name: update cart item
+  type: http
+  seq: 12
+}
+
+put {
+  url: http://localhost:8080/carts/fe792e96-e545-4287-acc1-c41855b48f1b/items/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "quantity": 10
+  }
+}
