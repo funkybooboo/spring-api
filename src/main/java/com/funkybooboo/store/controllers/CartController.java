@@ -5,7 +5,6 @@ import com.funkybooboo.store.dtos.requests.UpdateCartItemRequestDto;
 import com.funkybooboo.store.dtos.responses.CartItemResponseDto;
 import com.funkybooboo.store.dtos.responses.CartResponseDto;
 import com.funkybooboo.store.entities.Cart;
-import com.funkybooboo.store.entities.CartItem;
 import com.funkybooboo.store.mappers.CartMapper;
 import com.funkybooboo.store.repositories.CartRepository;
 import com.funkybooboo.store.repositories.ProductRepository;
@@ -102,5 +101,34 @@ public class CartController {
         cartRepository.save(cart);
         
         return ResponseEntity.ok(cartMapper.toResponseDto(cartItem));
+    }
+
+    @DeleteMapping("/{cartId}/items/{productId}")
+    public ResponseEntity<?> removeItem(
+        @PathVariable("cartId") UUID cartId,
+        @PathVariable("productId") Long productId
+    ) {
+        var cart = cartRepository.getCartWithItems(cartId).orElse(null);
+        if (cart == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Cart not found"));
+        }
+        
+        cart.removeItem(productId);
+        cartRepository.save(cart);
+        
+        return ResponseEntity.noContent().build();
+    }
+    
+    @DeleteMapping("/{cartId}/items")
+    public ResponseEntity<?> clearCart(@PathVariable UUID cartId) {
+        var cart = cartRepository.getCartWithItems(cartId).orElse(null);
+        if (cart == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Cart not found"));
+        }
+        
+        cart.clear();
+        cartRepository.save(cart);
+
+        return ResponseEntity.noContent().build();
     }
 }
