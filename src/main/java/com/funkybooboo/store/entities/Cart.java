@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
@@ -28,11 +29,10 @@ public class Cart {
     )
     private UUID id;
 
-    @Column(
-            name = "date_created",
-            insertable = false,
-            updatable = false
-    )
+    @CreationTimestamp
+    @Column(name = "date_created",
+            nullable = false,
+            updatable = false)
     private LocalDate dateCreated;
 
     @OneToMany(mappedBy = "cart")
