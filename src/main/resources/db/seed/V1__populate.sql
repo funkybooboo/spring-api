@@ -1,12 +1,12 @@
 USE spring_api;
 
--- 1) Users
+-- 1) Users (hashed passwords with bcrypt)
 INSERT INTO users (name, email, password) VALUES
-    ('Alice Smith',   'alice@example.com',   'password1'),
-    ('Bob Johnson',   'bob@example.com',     'password2'),
-    ('Carol Williams','carol@example.com',   'password3'),
-    ('Dave Brown',    'dave@example.com',    'password4'),
-    ('Eve Davis',     'eve@example.com',     'password5');
+    ('Alice Smith',   'alice@example.com',   '$2a$10$hD6sMNkqobtlcMztrDnUReS12YKAzDJPvB1lMQixMy4JqaEyRKKCa'),
+    ('Bob Johnson',   'bob@example.com',     '$2a$10$fZxsEzWxTh2AxV5UgH7AuOQbl6sK8VOqKoONauZKprrx0HJ58Y5AS'),
+    ('Carol Williams','carol@example.com',   '$2a$10$UMr1PiOiM0wIuYg95y5JOe3QSRvvCvq3a0XDYMRlo1AMHcuXj2dGu'),
+    ('Dave Brown',    'dave@example.com',    '$2a$10$9TqzjND3m.cG/zlTgq.GxuDjJvTxfPrQ/P3.SBzF/zkBJkxS9Ajde'),
+    ('Eve Davis',     'eve@example.com',     '$2a$10$sARh0sXpqFwPaRYRpQ4NR.iRZQROkn7e6qS0Z8P9MN13FZSnAzD.a');
 
 -- 2) Addresses (one per user)
 INSERT INTO addresses (street, city, state, zip, user_id) VALUES
