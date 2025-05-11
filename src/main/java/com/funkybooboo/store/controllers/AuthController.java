@@ -34,7 +34,9 @@ public class AuthController {
             requestDto.getPassword()
         ));
         
-        var token = jwtService.generateToken(requestDto.getEmail());
+        var user = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(); // will never not exist as the filters block emails that don't exist in the db
+        
+        var token = jwtService.generateToken(user);
         
         return ResponseEntity.ok(new JwtResponseDto(token));
     }
@@ -48,9 +50,9 @@ public class AuthController {
     @GetMapping("/me")
     public ResponseEntity<UserResponseDto> me() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var email = (String) authentication.getPrincipal();
+        var userId = (Long) authentication.getPrincipal();
         
-        var user = userRepository.findByEmail(email).orElse(null);
+        var user = userRepository.findById(userId).orElse(null);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
