@@ -7,6 +7,7 @@ import com.funkybooboo.store.entities.Product;
 import com.funkybooboo.store.mappers.ProductMapper;
 import com.funkybooboo.store.repositories.CategoryRepository;
 import com.funkybooboo.store.repositories.ProductRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.Set;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/products")
+@Tag(name = "Products")
 public class ProductController {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;

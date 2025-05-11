@@ -7,6 +7,8 @@ import com.funkybooboo.store.dtos.responses.CartResponseDto;
 import com.funkybooboo.store.exceptions.CartNotFoundException;
 import com.funkybooboo.store.exceptions.ProductNotFoundException;
 import com.funkybooboo.store.services.CartService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/carts")
+@Tag(name = "Carts")
 public class CartController {
     private final CartService cartService;
 
@@ -32,6 +35,7 @@ public class CartController {
     }
     
     @PostMapping("/{cartId}/items")
+    @Operation(summary = "Adds a product to the cart")
     public ResponseEntity<CartItemResponseDto> addToCart(
         @PathVariable UUID cartId,
         @RequestBody AddItemToCartRequestDto requestDto,

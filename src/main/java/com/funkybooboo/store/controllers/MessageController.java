@@ -1,6 +1,7 @@
 package com.funkybooboo.store.controllers;
 
 import com.funkybooboo.store.entities.Message;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
  * Methods return actual data, not views.
  */
 @RestController
+@Tag(name = "Messages")
 public class MessageController {
 
     /**

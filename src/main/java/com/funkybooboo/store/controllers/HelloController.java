@@ -1,10 +1,12 @@
 package com.funkybooboo.store.controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@Tag(name = "Hello")
 public class HelloController {
 
     // Serves static/hello.html
