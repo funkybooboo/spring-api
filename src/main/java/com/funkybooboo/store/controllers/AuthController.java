@@ -1,11 +1,14 @@
 package com.funkybooboo.store.controllers;
 
+import com.funkybooboo.store.config.JwtConfig;
 import com.funkybooboo.store.dtos.requests.LoginRequestDto;
 import com.funkybooboo.store.dtos.responses.JwtResponseDto;
 import com.funkybooboo.store.dtos.responses.UserResponseDto;
 import com.funkybooboo.store.mappers.UserMapper;
 import com.funkybooboo.store.repositories.UserRepository;
 import com.funkybooboo.store.services.JwtService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,10 +27,12 @@ public class AuthController {
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final JwtConfig jwtConfig;
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponseDto> login(
-        @Valid @RequestBody LoginRequestDto requestDto
+        @Valid @RequestBody LoginRequestDto requestDto,
+        HttpServletResponse response
     ) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
             requestDto.getEmail(),
@@ -36,9 +41,16 @@ public class AuthController {
         
         var user = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(); // will never not exist as the filters block emails that don't exist in the db
         
-        var token = jwtService.generateToken(user);
+        var accessToken = jwtService.generateAccessToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
         
-        return ResponseEntity.ok(new JwtResponseDto(token));
+        var cookie = new Cookie("refreshToken", refreshToken);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/auth/refresh");
+        cookie.setMaxAge(jwtConfig.getRefreshTokenExpiration());
+        response.addCookie(cookie);
+        
+        return ResponseEntity.ok(new JwtResponseDto(accessToken));
     }
     
     @PostMapping("/validate")
