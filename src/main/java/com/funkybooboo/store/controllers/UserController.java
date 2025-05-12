@@ -4,6 +4,7 @@ import com.funkybooboo.store.dtos.requests.ChangeUserPasswordRequestDto;
 import com.funkybooboo.store.dtos.requests.CreateUserRequestDto;
 import com.funkybooboo.store.dtos.requests.UpdateUserRequestDto;
 import com.funkybooboo.store.dtos.responses.UserResponseDto;
+import com.funkybooboo.store.entities.Role;
 import com.funkybooboo.store.mappers.UserMapper;
 import com.funkybooboo.store.repositories.UserRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -60,6 +61,7 @@ public class UserController {
         
         var user = userMapper.toEntity(userRequestDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.USER);
         userRepository.save(user);
         var userResponseDto = userMapper.toResponseDto(user);
         var uri = uriBuilder.path("/users/{id}").buildAndExpand(userResponseDto.getId()).toUri();

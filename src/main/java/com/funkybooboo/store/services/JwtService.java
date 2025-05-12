@@ -5,9 +5,7 @@ import com.funkybooboo.store.entities.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -17,41 +15,36 @@ import java.util.Date;
 public class JwtService {
     private final JwtConfig jwtConfig;
     
-    public String generateAccessToken(User user) {
-        final long tokenExpirationInMillis = jwtConfig.getAccessTokenExpiration();
-        return generateToken(user, tokenExpirationInMillis);
+    public Jwt generateAccessToken(User user) {
+        return generateJwt(user, jwtConfig.getAccessTokenExpiration());
     }
 
-    public String generateRefreshToken(User user) {
-        final long tokenExpirationInMillis = jwtConfig.getRefreshTokenExpiration();
-        return generateToken(user, tokenExpirationInMillis);
+    public Jwt generateRefreshToken(User user) {
+        return generateJwt(user, jwtConfig.getRefreshTokenExpiration());
     }
 
-    private String generateToken(User user, long tokenExpirationInMillis) {
-        return Jwts.builder()
-                .subject(user.getId().toString())
-                .claim("email", user.getEmail())
-                .claim("name", user.getName())
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * tokenExpirationInMillis))
-                .signWith(jwtConfig.getSecretKey())
-                .compact();
+    private Jwt generateJwt(User user, long tokenExpirationInMillis) {
+        var claims = Jwts.claims()
+            .subject(user.getId().toString())
+            .add("email", user.getEmail())
+            .add("name", user.getName())
+            .add("role", user.getRole())
+            .issuedAt(new Date())
+            .expiration(new Date(System.currentTimeMillis() + 1000 * tokenExpirationInMillis))
+            .build();
+        
+        return new Jwt(claims, jwtConfig.getSecretKey());
     }
-
-    public boolean validateToken(String token) {
+    
+    public Jwt parseToken(String token) {
         try {
             var claims = getClaims(token);
-            return claims.getExpiration().after(new Date());
-        }
-        catch (JwtException ex) {
-            return false;
+            return new Jwt(claims, jwtConfig.getSecretKey());
+        } catch (JwtException ex) {
+            return null;
         }
     }
-
-    public Long getUserIdFromToken(String token) {
-        return Long.valueOf(getClaims(token).getSubject());
-    }
-
+    
     private Claims getClaims(String token) {
         return Jwts.parser()
                 .verifyWith(jwtConfig.getSecretKey())

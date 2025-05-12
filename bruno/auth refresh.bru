@@ -1,0 +1,23 @@
+meta {
+  name: auth refresh
+  type: http
+  seq: 17
+}
+
+post {
+  url: http://localhost:8080/auth/refresh
+  body: none
+  auth: none
+}
+
+headers {
+  : 
+}
+
+script:pre-request {
+  const cookie = bru.getVar("cookie");
+  
+  if(cookie) {
+    req.setHeader("Cookie", cookie)
+  }
+}

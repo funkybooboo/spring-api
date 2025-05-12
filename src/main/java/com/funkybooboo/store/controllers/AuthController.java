@@ -39,24 +39,41 @@ public class AuthController {
             requestDto.getPassword()
         ));
         
-        var user = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(); // will never not exist as the filters block emails that don't exist in the db
+        var user = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(); // will never throw bc of filters
         
         var accessToken = jwtService.generateAccessToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         
-        var cookie = new Cookie("refreshToken", refreshToken);
+        var cookie = new Cookie("refreshToken", refreshToken.toString());
         cookie.setHttpOnly(true);
         cookie.setPath("/auth/refresh");
         cookie.setMaxAge(jwtConfig.getRefreshTokenExpiration());
         response.addCookie(cookie);
         
-        return ResponseEntity.ok(new JwtResponseDto(accessToken));
+        return ResponseEntity.ok(new JwtResponseDto(accessToken.toString()));
     }
     
+    // dont really need just for practice
     @PostMapping("/validate")
     public boolean validate(@RequestHeader("Authorization") String authHeader) {
         var token = authHeader.replace("Bearer ", "");
-        return jwtService.validateToken(token);
+        var jwt = jwtService.parseToken(token);
+        return jwt != null && !jwt.isExpired();
+    }
+    
+    @PostMapping("/refresh")
+    public ResponseEntity<JwtResponseDto> refresh(
+        @CookieValue(value = "refreshToken") String refreshToken
+    ) {
+        var jwt = jwtService.parseToken(refreshToken);
+        if (jwt == null || jwt.isExpired()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        
+        var user = userRepository.findById(jwt.getUserId()).orElseThrow(); // will never throw bc of filters
+        var accessToken = jwtService.generateAccessToken(user);
+
+        return ResponseEntity.ok(new JwtResponseDto(accessToken.toString()));
     }
     
     @GetMapping("/me")
