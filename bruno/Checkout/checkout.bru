@@ -1,0 +1,24 @@
+meta {
+  name: checkout
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{url}}/checkout
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "cartId": "6582e10e-3f99-439a-b1f5-b303efb4104d"
+  }
+}
+
+script:pre-request {
+  req.setHeader(
+    "Authorization",
+    `Bearer ${bru.getEnvVar("accessToken")}`
+  );
+}

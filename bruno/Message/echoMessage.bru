@@ -1,0 +1,24 @@
+meta {
+  name: echoMessage
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{url}}/echoMessage
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "text": "Nate"
+  }
+}
+
+script:pre-request {
+  req.setHeader(
+    "Authorization",
+    `Bearer ${bru.getEnvVar("accessToken")}`
+  );
+}

@@ -1,0 +1,24 @@
+meta {
+  name: add item to cart
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{url}}/carts/{{cartId}}/items
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "productId": 2
+  }
+}
+
+script:pre-request {
+  req.setHeader(
+    "Authorization",
+    `Bearer ${bru.getEnvVar("accessToken")}`
+  );
+}

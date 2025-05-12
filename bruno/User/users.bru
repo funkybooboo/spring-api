@@ -1,0 +1,22 @@
+meta {
+  name: users
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{url}}/users?sort=name
+  body: none
+  auth: none
+}
+
+params:query {
+  sort: name
+}
+
+script:pre-request {
+  req.setHeader(
+    "Authorization",
+    `Bearer ${bru.getEnvVar("accessToken")}`
+  );
+}

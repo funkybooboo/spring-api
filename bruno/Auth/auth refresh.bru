@@ -1,17 +1,13 @@
 meta {
   name: auth refresh
   type: http
-  seq: 17
+  seq: 4
 }
 
 post {
-  url: http://localhost:8080/auth/refresh
+  url: {{url}}/auth/refresh
   body: none
   auth: none
-}
-
-headers {
-  : 
 }
 
 script:pre-request {

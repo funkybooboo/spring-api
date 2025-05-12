@@ -27,13 +27,12 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
     
-    @Column(name = "createdAt", insertable = false, updatable = false)
+    @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "total_price")
     private BigDecimal totalPrice;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
     private Set<OrderItem> items = new LinkedHashSet<>();
-
 }

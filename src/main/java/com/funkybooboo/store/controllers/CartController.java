@@ -4,7 +4,6 @@ import com.funkybooboo.store.dtos.requests.AddItemToCartRequestDto;
 import com.funkybooboo.store.dtos.requests.UpdateCartItemRequestDto;
 import com.funkybooboo.store.dtos.responses.CartItemResponseDto;
 import com.funkybooboo.store.dtos.responses.CartResponseDto;
-import com.funkybooboo.store.exceptions.CartNotFoundException;
 import com.funkybooboo.store.exceptions.ProductNotFoundException;
 import com.funkybooboo.store.services.CartService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -79,11 +78,6 @@ public class CartController {
     public ResponseEntity<?> clearCart(@PathVariable UUID cartId) {
         cartService.clearCart(cartId);
         return ResponseEntity.noContent().build();
-    }
-    
-    @ExceptionHandler(CartNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleCartNotFound() {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Cart not found"));
     }
 
     @ExceptionHandler(ProductNotFoundException.class)

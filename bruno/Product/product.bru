@@ -1,0 +1,18 @@
+meta {
+  name: product
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{url}}/products/2
+  body: none
+  auth: none
+}
+
+script:pre-request {
+  req.setHeader(
+    "Authorization",
+    `Bearer ${bru.getEnvVar("accessToken")}`
+  );
+}
