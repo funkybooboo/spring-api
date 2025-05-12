@@ -1,6 +1,6 @@
 package com.funkybooboo.store.controllers;
 
-import com.funkybooboo.store.dtos.errors.ErrorDto;
+import com.funkybooboo.store.dtos.responses.ErrorResponseDto;
 import com.funkybooboo.store.exceptions.CartNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +15,8 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorDto> handleUnreadableMessage() {
-        return ResponseEntity.badRequest().body(new ErrorDto("Invalid request body"));
+    public ResponseEntity<ErrorResponseDto> handleUnreadableMessage() {
+        return ResponseEntity.badRequest().body(new ErrorResponseDto("Invalid request body"));
     }
     
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CartNotFoundException.class)
-    public ResponseEntity<ErrorDto> handleCartNotFound() {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDto("Cart not found"));
+    public ResponseEntity<ErrorResponseDto> handleCartNotFound() {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto("Cart not found"));
     }
 }

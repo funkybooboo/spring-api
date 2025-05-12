@@ -1,6 +1,6 @@
 package com.funkybooboo.store.controllers;
 
-import com.funkybooboo.store.dtos.errors.ErrorDto;
+import com.funkybooboo.store.dtos.responses.ErrorResponseDto;
 import com.funkybooboo.store.dtos.requests.AddItemToCartRequestDto;
 import com.funkybooboo.store.dtos.requests.UpdateCartItemRequestDto;
 import com.funkybooboo.store.dtos.responses.CartItemResponseDto;
@@ -81,7 +81,7 @@ public class CartController {
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<ErrorDto> handleProductNotFound() {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto("Product not found in cart"));
+    public ResponseEntity<ErrorResponseDto> handleProductNotFound() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDto("Product not found in cart"));
     }
 }

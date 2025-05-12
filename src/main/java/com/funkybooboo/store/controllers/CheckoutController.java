@@ -1,6 +1,6 @@
 package com.funkybooboo.store.controllers;
 
-import com.funkybooboo.store.dtos.errors.ErrorDto;
+import com.funkybooboo.store.dtos.responses.ErrorResponseDto;
 import com.funkybooboo.store.dtos.requests.CheckoutRequestDto;
 import com.funkybooboo.store.dtos.responses.CheckoutResponseDto;
 import com.funkybooboo.store.exceptions.EmptyCartAtCheckoutException;
@@ -25,7 +25,7 @@ public class CheckoutController {
     }
 
     @ExceptionHandler(EmptyCartAtCheckoutException.class)
-    public ResponseEntity<ErrorDto> handleCartNotFound() {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto("Empty cart at checkout"));
+    public ResponseEntity<ErrorResponseDto> handleCartNotFound() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDto("Empty cart at checkout"));
     }
 }
