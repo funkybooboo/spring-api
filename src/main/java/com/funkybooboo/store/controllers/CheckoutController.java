@@ -1,5 +1,6 @@
 package com.funkybooboo.store.controllers;
 
+import com.funkybooboo.store.dtos.errors.ErrorDto;
 import com.funkybooboo.store.dtos.requests.CheckoutRequestDto;
 import com.funkybooboo.store.dtos.responses.CheckoutResponseDto;
 import com.funkybooboo.store.entities.Order;
@@ -16,8 +17,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @AllArgsConstructor
 @RestController
@@ -64,7 +63,7 @@ public class CheckoutController {
     }
 
     @ExceptionHandler(EmptyCartAtCheckoutException.class)
-    public ResponseEntity<Map<String, String>> handleCartNotFound() {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "Empty cart at checkout"));
+    public ResponseEntity<ErrorDto> handleCartNotFound() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto("Empty cart at checkout"));
     }
 }
