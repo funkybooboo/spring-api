@@ -1,0 +1,30 @@
+meta {
+  name: login
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{url}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "kel@email.com",
+    "password": "asdfasdf!"
+  }
+}
+
+script:post-response {
+  const cookies = res.getHeader('set-cookie');
+  
+  if(cookies) {
+    bru.setVar("cookie", cookies.join('; '));
+  }
+  
+  const data = res.getBody();
+  bru.setEnvVar('accessToken', data.token);
+  
+}

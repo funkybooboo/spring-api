@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "spring-api",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

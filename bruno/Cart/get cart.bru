@@ -1,0 +1,18 @@
+meta {
+  name: get cart
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{url}}/carts/{{cartId}}
+  body: none
+  auth: none
+}
+
+script:pre-request {
+  req.setHeader(
+    "Authorization",
+    `Bearer ${bru.getEnvVar("accessToken")}`
+  );
+}

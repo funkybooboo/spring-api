@@ -1,0 +1,25 @@
+meta {
+  name: update user
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{url}}/users/3
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Kelsey",
+    "email": "nate.stott@pm.me"
+  }
+}
+
+script:pre-request {
+  req.setHeader(
+    "Authorization",
+    `Bearer ${bru.getEnvVar("accessToken")}`
+  );
+}

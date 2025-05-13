@@ -1,0 +1,23 @@
+meta {
+  name: create cart
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{url}}/carts
+  body: none
+  auth: none
+}
+
+script:pre-request {
+  req.setHeader(
+    "Authorization",
+    `Bearer ${bru.getEnvVar("accessToken")}`
+  );
+}
+
+script:post-response {
+  const data = res.getBody();
+  bru.setEnvVar('cartId', data.id);
+}
