@@ -1,5 +1,6 @@
 package com.funkybooboo.store.controllers;
 
+import com.funkybooboo.store.dtos.requests.WebhookRequestDto;
 import com.funkybooboo.store.dtos.responses.ErrorResponseDto;
 import com.funkybooboo.store.dtos.requests.CheckoutRequestDto;
 import com.funkybooboo.store.dtos.responses.CheckoutResponseDto;
@@ -7,12 +8,14 @@ import com.funkybooboo.store.exceptions.EmptyCartAtCheckoutException;
 import com.funkybooboo.store.exceptions.PaymentGatewayException;
 import com.funkybooboo.store.services.CheckoutService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@AllArgsConstructor
+import java.util.Map;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/checkout")
 public class CheckoutController {
@@ -23,6 +26,14 @@ public class CheckoutController {
         @Valid @RequestBody CheckoutRequestDto requestDto
     ) {
         return checkoutService.checkout(requestDto);
+    }
+    
+    @PostMapping("/webhook")
+    public void webhook(
+        @RequestHeader Map<String, String> headers,
+        @RequestBody String payload
+    ) {
+        checkoutService.handleWebhookEvent(new WebhookRequestDto(headers, payload));
     }
     
     @ExceptionHandler(PaymentGatewayException.class)

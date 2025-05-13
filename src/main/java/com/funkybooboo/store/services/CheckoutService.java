@@ -3,9 +3,11 @@ package com.funkybooboo.store.services;
 import com.funkybooboo.store.dtos.requests.CheckoutRequestDto;
 import com.funkybooboo.store.dtos.responses.CheckoutResponseDto;
 import com.funkybooboo.store.entities.Order;
+import com.funkybooboo.store.entities.PaymentStatus;
 import com.funkybooboo.store.exceptions.CartNotFoundException;
 import com.funkybooboo.store.exceptions.EmptyCartAtCheckoutException;
 import com.funkybooboo.store.exceptions.PaymentGatewayException;
+import com.funkybooboo.store.dtos.requests.WebhookRequestDto;
 import com.funkybooboo.store.services.utils.paymentGateways.PaymentGateway;
 import com.funkybooboo.store.repositories.CartRepository;
 import com.funkybooboo.store.repositories.OrderRepository;
@@ -48,5 +50,15 @@ public class CheckoutService {
             orderRepository.delete(order);
             throw ex;
         }
+    }
+    
+    public void handleWebhookEvent(WebhookRequestDto requestDto) {
+        paymentGateway
+            .parseWebhookRequestDto(requestDto)
+            .ifPresent(paymentResult -> {
+                var order = orderRepository.findById(paymentResult.getOrderId()).orElseThrow();
+                order.setStatus(paymentResult.getPaymentStatus());
+                orderRepository.save(order);
+            });
     }
 }
