@@ -1,4 +1,4 @@
-package com.funkybooboo.store.services;
+package com.funkybooboo.store.services.utils;
 
 import com.funkybooboo.store.entities.Role;
 import io.jsonwebtoken.Claims;

@@ -2,6 +2,7 @@ package com.funkybooboo.store.services;
 
 import com.funkybooboo.store.config.JwtConfig;
 import com.funkybooboo.store.entities.User;
+import com.funkybooboo.store.services.utils.Jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
