@@ -1,6 +1,6 @@
 package com.funkybooboo.store.payments.contollers;
 
-import com.funkybooboo.store.global.exceptions.ErrorResponseDto;
+import com.funkybooboo.store.shared.exceptions.ErrorResponseDto;
 import com.funkybooboo.store.carts.exceptions.EmptyCartAtCheckoutException;
 import com.funkybooboo.store.payments.dtos.requests.CheckoutRequestDto;
 import com.funkybooboo.store.payments.dtos.requests.WebhookRequestDto;

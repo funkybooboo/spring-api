@@ -1,6 +1,6 @@
 package com.funkybooboo.store.orders.controllers;
 
-import com.funkybooboo.store.global.exceptions.ErrorResponseDto;
+import com.funkybooboo.store.shared.exceptions.ErrorResponseDto;
 import com.funkybooboo.store.orders.exceptions.OrderNotFoundException;
 import com.funkybooboo.store.orders.dtos.responses.OrderResponseDto;
 import com.funkybooboo.store.orders.services.OrderService;

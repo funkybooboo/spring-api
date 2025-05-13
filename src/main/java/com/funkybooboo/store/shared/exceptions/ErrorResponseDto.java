@@ -1,4 +1,4 @@
-package com.funkybooboo.store.global.exceptions;
+package com.funkybooboo.store.shared.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

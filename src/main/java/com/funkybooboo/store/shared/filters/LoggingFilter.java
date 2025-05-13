@@ -1,4 +1,4 @@
-package com.funkybooboo.store.global.filters;
+package com.funkybooboo.store.shared.filters;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

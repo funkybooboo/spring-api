@@ -1,4 +1,4 @@
-package com.funkybooboo.store.global.exceptions;
+package com.funkybooboo.store.shared.exceptions;
 
 import com.funkybooboo.store.carts.exceptions.CartNotFoundException;
 import org.springframework.http.HttpStatus;

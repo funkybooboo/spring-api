@@ -5,7 +5,7 @@ import com.funkybooboo.store.carts.dtos.responses.CartResponseDto;
 import com.funkybooboo.store.carts.services.CartService;
 import com.funkybooboo.store.carts.dtos.requests.UpdateCartItemRequestDto;
 import com.funkybooboo.store.carts.dtos.requests.AddItemToCartRequestDto;
-import com.funkybooboo.store.global.exceptions.ErrorResponseDto;
+import com.funkybooboo.store.shared.exceptions.ErrorResponseDto;
 import com.funkybooboo.store.products.exceptions.ProductNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
