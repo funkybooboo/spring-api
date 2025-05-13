@@ -1,4 +1,4 @@
-# spring-api
+# springify
 
 A lightweight e-commerce platform powered by Spring Boot, featuring product browsing, shopping-cart management, secure checkout (Stripe), and an admin console for inventory & order tracking.
 
