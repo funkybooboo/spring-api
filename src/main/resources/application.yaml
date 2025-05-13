@@ -18,5 +18,5 @@ spring:
     accessTokenExpiration: 900 # 15m
     refreshTokenExpiration: 604800 # 7d
 stripe:
-  secretKey: ${STRIPE_SECRET_KEY}}
+  secretKey: ${STRIPE_SECRET_KEY}
 websiteUrl: http://localhost:4242

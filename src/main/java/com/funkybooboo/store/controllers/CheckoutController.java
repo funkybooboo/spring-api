@@ -5,6 +5,7 @@ import com.funkybooboo.store.dtos.requests.CheckoutRequestDto;
 import com.funkybooboo.store.dtos.responses.CheckoutResponseDto;
 import com.funkybooboo.store.exceptions.EmptyCartAtCheckoutException;
 import com.funkybooboo.store.services.CheckoutService;
+import com.stripe.exception.StripeException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,13 @@ public class CheckoutController {
     @PostMapping
     public CheckoutResponseDto checkout(
         @Valid @RequestBody CheckoutRequestDto requestDto
-    ) {
+    ) throws StripeException {
         return checkoutService.checkout(requestDto);
+    }
+    
+    @ExceptionHandler(StripeException.class)
+    public ResponseEntity<ErrorResponseDto> handleStripeException() {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponseDto("Error creating a checkout session"));
     }
 
     @ExceptionHandler(EmptyCartAtCheckoutException.class)
